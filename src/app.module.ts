@@ -5,11 +5,10 @@ import { MoviesModule } from './movies/movies.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { getConnectionOptions } from 'typeorm';
-import { Movie } from './models/movie/movie.entity';
+// import { Movie } from './models/movie/movie.entity';
 import { MovieGenre } from './models/movie/movie_genre.entity';
 import { TvModule } from './tv/tv.module';
-import { TV } from './models/tv/tv.entity';
+// import { TV } from './models/tv/tv.entity';
 import { TVGenre } from './models/tv/tv_genre.entity';
 
 @Module({
@@ -24,7 +23,12 @@ import { TVGenre } from './models/tv/tv_genre.entity';
       username: 'root',
       password: 'mathmech',
       database: 'netflex',
-      entities: [Movie, MovieGenre, TV, TVGenre],
+      entities: [
+        // Movie,
+        MovieGenre,
+        // TV,
+        TVGenre,
+      ],
       synchronize: true,
     }),
     TvModule,

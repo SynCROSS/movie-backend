@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryColumn, ManyToOne } from 'typeorm';
-import { Movie } from './movie.entity';
+// import { Movie } from './movie.entity';
 
 @Entity()
 export class MovieGenre {
@@ -13,6 +13,6 @@ export class MovieGenre {
   })
   name: string;
 
-  @ManyToOne(() => Movie, movie => movie.genre_ids)
-  movie: Movie;
+  // @ManyToOne(() => Movie, movie => movie.genre_ids)
+  // movie: Movie;
 }

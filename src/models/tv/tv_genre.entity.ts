@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryColumn, ManyToOne } from 'typeorm';
-import { TV } from './tv.entity';
+// import { TV } from './tv.entity';
 
 @Entity()
 export class TVGenre {
@@ -13,6 +13,6 @@ export class TVGenre {
   })
   name: string;
 
-  @ManyToOne(() => TV, tv => tv.genre_ids)
-  tv: TV;
+  // @ManyToOne(() => TV, tv => tv.genre_ids)
+  // tv: TV;
 }
