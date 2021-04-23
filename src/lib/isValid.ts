@@ -9,7 +9,6 @@ export const isValidTarget = (target: string | number): boolean => {
   if (
     target !== 'top_rated' &&
     target !== 'popular' &&
-    target !== 'latest' &&
     target !== 'upcoming' &&
     typeof target !== 'number'
   ) {
