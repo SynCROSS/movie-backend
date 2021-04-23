@@ -10,6 +10,9 @@ import { MovieGenre } from './models/movie/movie_genre.entity';
 import { TvModule } from './tv/tv.module';
 // import { TV } from './models/tv/tv.entity';
 import { TVGenre } from './models/tv/tv_genre.entity';
+import { Theater } from './models/movie/theater.entity';
+import { User } from './models/user/user.entity';
+import { Seat } from './models/movie/seat.entity';
 
 @Module({
   imports: [
@@ -23,12 +26,7 @@ import { TVGenre } from './models/tv/tv_genre.entity';
       username: 'root',
       password: 'mathmech',
       database: 'netflex',
-      entities: [
-        // Movie,
-        MovieGenre,
-        // TV,
-        TVGenre,
-      ],
+      entities: [MovieGenre, Theater, Seat, User, TVGenre],
       synchronize: true,
     }),
     TvModule,
