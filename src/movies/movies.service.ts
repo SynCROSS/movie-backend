@@ -1,14 +1,20 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import axios from 'axios';
 import { isValidTarget, isValidInfoType } from 'src/lib/isValid';
 import {
   generateMovieOrSeriesURL,
   generateTrendingURL,
 } from '../lib/generateURL';
-
+import { Repository } from 'typeorm';
+import { MovieGenre } from '../models/movie/movie_genre.entity';
+// import { generateGenreURL } from '../lib/generateURL';
 @Injectable()
 export class MoviesService {
-  constructor() {}
+  constructor(
+    @InjectRepository(MovieGenre)
+    private readonly movieGenreRepository: Repository<MovieGenre>,
+  ) {}
 
   async getMovies(target: string) {
     try {
@@ -19,6 +25,7 @@ export class MoviesService {
       const {
         data: { results },
       } = await axios.get(generateMovieOrSeriesURL('movie', target));
+
       return results;
     } catch (e) {
       console.error(e);
@@ -34,6 +41,7 @@ export class MoviesService {
       const {
         data: { results },
       } = await axios.get(generateTrendingURL('movie', time_window));
+
       return results;
     } catch (e) {
       console.error(e);
@@ -47,6 +55,7 @@ export class MoviesService {
       }
 
       const { data } = await axios.get(generateMovieOrSeriesURL('movie', id));
+
       return data;
     } catch (e) {
       console.error(e);
@@ -62,7 +71,32 @@ export class MoviesService {
       const {
         data: { results },
       } = await axios.get(generateMovieOrSeriesURL('movie', id, info_type));
+
       return results;
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  // async fetchMovieGenres() {
+  //   try {
+  //     const {
+  //       data: { genres },
+  //     } = await axios.get(generateGenreURL('movie'));
+
+  //     for await (const genre of genres) {
+  //       await this.movieGenreRepository.save(
+  //         this.movieGenreRepository.create({ ...genre }),
+  //       );
+  //     }
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // }
+
+  async getMovieGenreByID(id: number) {
+    try {
+      return await this.movieGenreRepository.findOne({ id });
     } catch (e) {
       console.error(e);
     }

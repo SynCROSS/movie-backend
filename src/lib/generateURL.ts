@@ -36,3 +36,10 @@ export const generateTrendingURL = (
   }
   return '';
 };
+
+export const generateGenreURL = (media: string): string => {
+  if (isValidMedia(media)) {
+    return `${API_URL}/genre/${media}/list?api_key=${API_KEY}`;
+  }
+  return '';
+};

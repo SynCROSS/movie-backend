@@ -6,7 +6,7 @@ export class TvController {
   constructor(private readonly tvService: TvService) {}
 
   @Get()
-  getMovies(@Query('target') target: string) {
+  getTVShows(@Query('target') target: string) {
     return this.tvService.getTVShows(target);
   }
 
@@ -15,13 +15,23 @@ export class TvController {
     return this.tvService.getTrending(time_window);
   }
 
+  // @Get('genre')
+  // fetchTVShowGenres() {
+  //   return this.tvService.fetchTVShowGenres();
+  // }
+
+  @Get('genre/:id')
+  getTVShowGenreByID(@Param('id') id: number) {
+    return this.tvService.getTVShowGenreByID(id);
+  }
+
   @Get('detail/:id')
-  getMovieDetail(@Param('id') id: number) {
+  getTVShowsDetail(@Param('id') id: number) {
     return this.tvService.getTVShowDetail(id);
   }
 
   @Get('info/:id')
-  getMovieOtherInfo(
+  getTVShowsOtherInfo(
     @Param('id') id: number,
     @Query('info_type') info_type: string,
   ) {

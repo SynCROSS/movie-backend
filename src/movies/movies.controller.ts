@@ -15,6 +15,16 @@ export class MoviesController {
     return this.movieService.getTrending(time_window);
   }
 
+  // @Get('genre')
+  // fetchMovieGenres() {
+  //   return this.movieService.fetchMovieGenres();
+  // }
+
+  @Get('genre/:id')
+  getMovieGenreByID(@Param('id') id: number) {
+    return this.movieService.getMovieGenreByID(id);
+  }
+
   @Get('detail/:id')
   getMovieDetail(@Param('id') id: number) {
     return this.movieService.getMovieDetail(id);
