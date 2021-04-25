@@ -26,9 +26,9 @@ export class UsersService {
     }
   }
 
-  async getUser(nickname: string) {
+  async getUserByUsername(username: string) {
     try {
-      return await this.userRepository.findOne({ nickname });
+      return await this.userRepository.findOne(username);
     } catch (e) {
       console.error(e);
     }
