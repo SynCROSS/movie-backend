@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/models/user/user.entity';
 import { Repository } from 'typeorm';
-import { UserDTO } from './user.dto';
+import { RegisterDTO } from './user.dto';
 import { hashSync, genSalt } from 'bcrypt';
 
 @Injectable()
@@ -11,14 +11,14 @@ export class UsersService {
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
 
-  async register(userDto: UserDTO) {
+  async register(registerDTO: RegisterDTO) {
     try {
       const salt = await genSalt(10);
 
       return await this.userRepository.save(
         this.userRepository.create({
-          ...userDto,
-          password: hashSync(userDto?.password, salt),
+          ...registerDTO,
+          password: hashSync(registerDTO?.password, salt),
         }),
       );
     } catch (e) {
