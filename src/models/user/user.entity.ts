@@ -23,6 +23,12 @@ export class User {
   })
   nickname: string;
 
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
+  email: string;
+
   @Column('varchar')
   password: string;
 
