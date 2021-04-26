@@ -5,10 +5,11 @@ import { isValidTarget, isValidInfoType } from 'src/lib/isValid';
 import {
   generateMovieOrSeriesURL,
   generateTrendingURL,
+  // generateGenreURL
 } from '../lib/generateURL';
 import { Repository } from 'typeorm';
 import { MovieGenre } from '../models/movie/movie_genre.entity';
-// import { generateGenreURL } from '../lib/generateURL';
+
 @Injectable()
 export class MoviesService {
   constructor(
