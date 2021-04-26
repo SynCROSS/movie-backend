@@ -5,14 +5,13 @@ import { MoviesModule } from './movies/movies.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-// import { Movie } from './models/movie/movie.entity';
 import { MovieGenre } from './models/movie/movie_genre.entity';
 import { TvModule } from './tv/tv.module';
-// import { TV } from './models/tv/tv.entity';
 import { TVGenre } from './models/tv/tv_genre.entity';
-import { Theater } from './models/movie/theater.entity';
+import { Theater } from './models/theater/theater.entity';
 import { User } from './models/user/user.entity';
-import { Seat } from './models/movie/seat.entity';
+import { Seat } from './models/theater/seat.entity';
+import { TheatersModule } from './theaters/theaters.module';
 
 @Module({
   imports: [
@@ -30,6 +29,7 @@ import { Seat } from './models/movie/seat.entity';
       synchronize: true,
     }),
     TvModule,
+    TheatersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

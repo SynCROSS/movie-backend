@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
 } from 'typeorm';
-import { Seat } from '../movie/seat.entity';
+import { Seat } from '../theater/seat.entity';
 
 @Entity()
 export class User {
