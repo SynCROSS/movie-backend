@@ -12,6 +12,7 @@ import { Theater } from './models/theater/theater.entity';
 import { User } from './models/user/user.entity';
 import { Seat } from './models/theater/seat.entity';
 import { TheatersModule } from './theaters/theaters.module';
+import { SeatsModule } from './seats/seats.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { TheatersModule } from './theaters/theaters.module';
     }),
     TvModule,
     TheatersModule,
+    SeatsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
