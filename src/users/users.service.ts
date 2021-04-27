@@ -11,6 +11,14 @@ export class UsersService {
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
 
+  async getUserByUsername(username: string) {
+    try {
+      return await this.userRepository.findOne(username);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   async register(registerDTO: RegisterDTO) {
     try {
       const salt = await genSalt(10);
@@ -21,14 +29,6 @@ export class UsersService {
           password: hashSync(registerDTO?.password, salt),
         }),
       );
-    } catch (e) {
-      console.error(e);
-    }
-  }
-
-  async getUserByUsername(username: string) {
-    try {
-      return await this.userRepository.findOne(username);
     } catch (e) {
       console.error(e);
     }
