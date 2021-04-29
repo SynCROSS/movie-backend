@@ -11,10 +11,18 @@ export class TheatersService {
   ) {}
 
   async getAllTheaters() {
-    return await this.theaterRepository.find();
+    try {
+      return await this.theaterRepository.find();
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   async getTheaterByID(id: number) {
-    return await this.theaterRepository.findOne({ id });
+    try {
+      return await this.theaterRepository.findOne({ id });
+    } catch (e) {
+      console.error(e);
+    }
   }
 }
