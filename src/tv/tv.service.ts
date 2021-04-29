@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import axios from 'axios';
 import {
-  generateGenreURL,
+  // generateGenreURL,
   generateMovieOrSeriesURL,
   generateTrendingURL,
 } from 'src/lib/generateURL';
