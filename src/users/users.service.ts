@@ -13,7 +13,7 @@ export class UsersService {
 
   async getUserByUsername(username: string) {
     try {
-      return await this.userRepository.findOne(username);
+      return await this.userRepository.findOne({ username });
     } catch (e) {
       console.error(e);
     }
