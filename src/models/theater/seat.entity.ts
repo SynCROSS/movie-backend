@@ -1,13 +1,20 @@
-import { Entity, PrimaryColumn, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, ManyToOne, Column } from 'typeorm';
 import { User } from '../user/user.entity';
 import { Theater } from './theater.entity';
 
 @Entity()
 export class Seat {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn('increment')
   id: number;
 
-  @ManyToOne(() => Theater, theather => theather.seats)
+  @Column({
+    type: 'char',
+    length: 2,
+    unique: true,
+  })
+  seatNumber: string;
+
+  @ManyToOne(() => Theater, theater => theater.seats)
   theater: Theater;
 
   @ManyToOne(() => User, user => user.bookedSeats)
