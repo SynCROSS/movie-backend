@@ -22,12 +22,17 @@ export class MoviesController {
 
   @Get('genre/:id')
   async getMovieGenreByID(@Param('id') id: number) {
-    return await this.movieService.getMovieGenreByID(id);
+    return await this.movieService.getMovieGenreByGenreID(id);
   }
 
   @Get('detail/:id')
   async getMovieDetail(@Param('id') id: number) {
     return await this.movieService.getMovieDetail(id);
+  }
+
+  @Get('provider/:id')
+  async getWatchProviderByID(@Param('id') id: number) {
+    return await this.movieService.getWatchProviderByID(id);
   }
 
   @Get('info/:id')
