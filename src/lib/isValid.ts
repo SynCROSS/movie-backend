@@ -14,6 +14,11 @@ export const isValidTarget = (target: string | number): boolean => {
   ) {
     return false;
   }
+
+  if (typeof target === 'number' && isNaN(target)) {
+    return false;
+  }
+
   return true;
 };
 
