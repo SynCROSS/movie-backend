@@ -21,7 +21,7 @@ export const generateMovieOrSeriesURL = (
 
     return `${API_URL}/${media}` + query + `?api_key=${API_KEY}`;
   }
-  return '';
+  return null;
 };
 
 export const generateTrendingURL = (
@@ -34,12 +34,19 @@ export const generateTrendingURL = (
   ) {
     return `${API_URL}/trending/${media}/${time_window}?api_key=${API_KEY}`;
   }
-  return '';
+  return null;
 };
 
 export const generateGenreURL = (media: string): string => {
   if (isValidMedia(media)) {
     return `${API_URL}/genre/${media}/list?api_key=${API_KEY}`;
   }
-  return '';
+  return null;
+};
+
+export const generateWatchProvider = (media: string, id: number): string => {
+  if (isValidMedia(media) && isValidTarget(id)) {
+    return `${API_URL}/${media}/${id}/watch/providers?api_key=${API_KEY}`;
+  }
+  return null;
 };
