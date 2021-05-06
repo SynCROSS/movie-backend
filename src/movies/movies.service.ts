@@ -9,6 +9,7 @@ import {
 } from '../lib/generateURL';
 import { Repository } from 'typeorm';
 import { MovieGenre } from '../models/movie/movie_genre.entity';
+import { generateWatchProvider } from '../lib/generateURL';
 
 @Injectable()
 export class MoviesService {
@@ -51,7 +52,7 @@ export class MoviesService {
 
   async getMovieDetail(id: number) {
     try {
-      if (typeof id !== 'number') {
+      if (isNaN(id) || typeof id !== 'number') {
         return null;
       }
 
@@ -63,8 +64,27 @@ export class MoviesService {
     }
   }
 
+  async getWatchProviderByID(id: number) {
+    try {
+      if (isNaN(id) && typeof id !== 'number') {
+        return null;
+      }
+
+      const {
+        data: { results },
+      } = await axios.get(generateWatchProvider('movie', id));
+      return results.KR;
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   async getMovieOtherInfo(id: number, info_type: string) {
     try {
+      if (isNaN(id) || typeof id !== 'number') {
+        return null;
+      }
+
       if (!info_type && isValidInfoType(info_type)) {
         return null;
       }
@@ -95,7 +115,7 @@ export class MoviesService {
   //   }
   // }
 
-  async getMovieGenreByID(id: number) {
+  async getMovieGenreByGenreID(id: number) {
     try {
       return await this.movieGenreRepository.findOne({ id });
     } catch (e) {
