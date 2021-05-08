@@ -3,10 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import axios from 'axios';
 import {
   // generateGenreURL,
-  generateMovieOrSeriesURL,
+  generateContentsURL,
+  generateSearchURL,
   generateTrendingURL,
 } from 'src/lib/generateURL';
-import { isValidInfoType, isValidTarget } from '../lib/isValid';
+import { isValidID, isValidInfoType, isValidTarget } from '../lib/isValid';
 import { TVGenre } from '../models/tv/tv_genre.entity';
 import { Repository } from 'typeorm';
 
@@ -17,33 +18,41 @@ export class TvService {
     private readonly tvGenreRepository: Repository<TVGenre>,
   ) {}
 
-  async getTVShows(target: string) {
+  async getTVShows(target: string, page: number = 1) {
     try {
-      if (!target && isValidTarget(target)) {
+      if (!isValidTarget(target)) {
         return null;
       }
 
-      const {
-        data: { results },
-      } = await axios.get(generateMovieOrSeriesURL('tv', target));
+      const { data } = await axios.get(
+        generateContentsURL('tv', target) + `&page=${page || 1}`,
+      );
 
-      return results;
+      return data;
     } catch (e) {
       console.error(e);
     }
   }
 
-  async getTrending(time_window: string) {
+  async searchTVShows(query: string, page: number = 1) {
     try {
-      if (!time_window) {
-        return null;
-      }
+      const { data } = await axios.get(
+        generateSearchURL('tv', query) + `&page=${page || 1}`,
+      );
 
-      const {
-        data: { results },
-      } = await axios.get(generateTrendingURL('tv', time_window));
+      return data;
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
-      return results;
+  async getTrending(time_window: string, page: number = 1) {
+    try {
+      const { data } = await axios.get(
+        generateTrendingURL('tv', time_window) + `&page=${page || 1}`,
+      );
+
+      return data;
     } catch (e) {
       console.error(e);
     }
@@ -51,11 +60,11 @@ export class TvService {
 
   async getTVShowDetail(id: number) {
     try {
-      if (typeof id !== 'number') {
+      if (!isValidID(id)) {
         return null;
       }
 
-      const { data } = await axios.get(generateMovieOrSeriesURL('tv', id));
+      const { data } = await axios.get(generateContentsURL('tv', id));
 
       return data;
     } catch (e) {
@@ -65,13 +74,17 @@ export class TvService {
 
   async getTVShowOtherInfo(id: number, info_type: string) {
     try {
-      if (!info_type && isValidInfoType(info_type)) {
+      if (!isValidID(id)) {
+        return null;
+      }
+
+      if (!isValidInfoType(info_type)) {
         return null;
       }
 
       const {
         data: { results },
-      } = await axios.get(generateMovieOrSeriesURL('tv', id, info_type));
+      } = await axios.get(generateContentsURL('tv', id, info_type));
 
       return results;
     } catch (e) {
@@ -97,6 +110,10 @@ export class TvService {
 
   async getTVShowGenreByID(id: number) {
     try {
+      if (!isValidID(id)) {
+        return null;
+      }
+
       return await this.tvGenreRepository.findOne({ id });
     } catch (e) {
       console.error(e);

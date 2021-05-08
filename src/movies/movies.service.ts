@@ -1,15 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import axios from 'axios';
-import { isValidTarget, isValidInfoType } from 'src/lib/isValid';
+import { isValidTarget, isValidInfoType, isValidID } from 'src/lib/isValid';
 import {
-  generateMovieOrSeriesURL,
+  generateContentsURL,
   generateTrendingURL,
   // generateGenreURL
+  generateWatchProvider,
+  generateSearchURL,
 } from '../lib/generateURL';
 import { Repository } from 'typeorm';
 import { MovieGenre } from '../models/movie/movie_genre.entity';
-import { generateWatchProvider } from '../lib/generateURL';
 
 @Injectable()
 export class MoviesService {
@@ -18,33 +19,40 @@ export class MoviesService {
     private readonly movieGenreRepository: Repository<MovieGenre>,
   ) {}
 
-  async getMovies(target: string) {
+  async getMovies(target: string, page: number = 1) {
     try {
-      if (!target && isValidTarget(target)) {
+      if (!isValidTarget(target)) {
         return null;
       }
 
-      const {
-        data: { results },
-      } = await axios.get(generateMovieOrSeriesURL('movie', target));
+      const { data } = await axios.get(
+        generateContentsURL('movie', target) + `&page=${page || 1}`,
+      );
 
-      return results;
+      return data;
     } catch (e) {
       console.error(e);
     }
   }
 
-  async getTrending(time_window: string) {
+  async searchMovies(query: string, page: number = 1) {
     try {
-      if (!time_window) {
-        return null;
-      }
+      const { data } = await axios.get(
+        generateSearchURL('movie', query) + `&page=${page || 1}`,
+      );
+      return data;
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
-      const {
-        data: { results },
-      } = await axios.get(generateTrendingURL('movie', time_window));
+  async getTrending(time_window: string, page: number = 1) {
+    try {
+      const { data } = await axios.get(
+        generateTrendingURL('movie', time_window) + `&page=${page || 1}`,
+      );
 
-      return results;
+      return data;
     } catch (e) {
       console.error(e);
     }
@@ -52,11 +60,11 @@ export class MoviesService {
 
   async getMovieDetail(id: number) {
     try {
-      if (isNaN(id) || typeof id !== 'number') {
+      if (!isValidID(id)) {
         return null;
       }
 
-      const { data } = await axios.get(generateMovieOrSeriesURL('movie', id));
+      const { data } = await axios.get(generateContentsURL('movie', id));
 
       return data;
     } catch (e) {
@@ -66,7 +74,7 @@ export class MoviesService {
 
   async getWatchProviderByID(id: number) {
     try {
-      if (isNaN(id) && typeof id !== 'number') {
+      if (!isValidID(id)) {
         return null;
       }
 
@@ -81,17 +89,17 @@ export class MoviesService {
 
   async getMovieOtherInfo(id: number, info_type: string) {
     try {
-      if (isNaN(id) || typeof id !== 'number') {
+      if (!isValidID(id)) {
         return null;
       }
 
-      if (!info_type && isValidInfoType(info_type)) {
+      if (!isValidInfoType(info_type)) {
         return null;
       }
 
       const {
         data: { results },
-      } = await axios.get(generateMovieOrSeriesURL('movie', id, info_type));
+      } = await axios.get(generateContentsURL('movie', id, info_type));
 
       return results;
     } catch (e) {

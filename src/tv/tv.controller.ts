@@ -6,13 +6,27 @@ export class TvController {
   constructor(private readonly tvService: TvService) {}
 
   @Get()
-  async getTVShows(@Query('target') target: string) {
-    return await this.tvService.getTVShows(target);
+  async getTVShows(
+    @Query('target') target: string,
+    @Query('page') page: number = 1,
+  ) {
+    return await this.tvService.getTVShows(target, page);
   }
 
   @Get('trending')
-  async getTrending(@Query('time_window') time_window: string) {
-    return await this.tvService.getTrending(time_window);
+  async getTrending(
+    @Query('time_window') time_window: string,
+    @Query('page') page: number = 1,
+  ) {
+    return await this.tvService.getTrending(time_window, page);
+  }
+
+  @Get('search')
+  async searchTVShows(
+    @Query('query') query: string,
+    @Query('page') page: number = 1,
+  ) {
+    return await this.tvService.searchTVShows(query, page);
   }
 
   // @Get('genre')

@@ -6,13 +6,27 @@ export class MoviesController {
   constructor(private readonly movieService: MoviesService) {}
 
   @Get()
-  async getMovies(@Query('target') target: string) {
-    return await this.movieService.getMovies(target);
+  async getMovies(
+    @Query('target') target: string,
+    @Query('page') page: number = 1,
+  ) {
+    return await this.movieService.getMovies(target, page);
   }
 
   @Get('trending')
-  async getTrending(@Query('time_window') time_window: string) {
-    return await this.movieService.getTrending(time_window);
+  async getTrending(
+    @Query('time_window') time_window: string,
+    @Query('page') page: number = 1,
+  ) {
+    return await this.movieService.getTrending(time_window, page);
+  }
+
+  @Get('search')
+  async searchMovies(
+    @Query('query') query: string,
+    @Query('page') page: number = 1,
+  ) {
+    return await this.movieService.searchMovies(query, page);
   }
 
   // @Get('genre')
