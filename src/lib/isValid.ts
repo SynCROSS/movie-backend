@@ -1,33 +1,34 @@
 export const isValidMedia = (media: string): boolean => {
-  if (media !== 'movie' && media !== 'tv') {
+  if (!/movie|tv/.exec(media)) {
     return false;
   }
   return true;
 };
 
 export const isValidTarget = (target: string | number): boolean => {
-  if (
-    target !== 'top_rated' &&
-    target !== 'popular' &&
-    target !== 'upcoming' &&
-    typeof target !== 'number'
-  ) {
-    return false;
-  }
-
-  if (typeof target === 'number' && isNaN(target)) {
+  if (!/\d+|top_rated|popular|upcoming/i.exec(`${target}`)) {
     return false;
   }
 
   return true;
 };
 
+export const isValidTimeWindow = (time_window: string): boolean => {
+  if (!/week|day/.exec(time_window)) {
+    return false;
+  }
+  return true;
+};
+
 export const isValidInfoType = (info_type: string): boolean => {
-  if (
-    info_type !== 'recommendations' &&
-    info_type !== 'reviews' &&
-    info_type !== 'similar'
-  ) {
+  if (!/recommendations|reviews|similar/.exec(info_type)) {
+    return false;
+  }
+  return true;
+};
+
+export const isValidID = (id: number): boolean => {
+  if (!/\d+/.exec(`${id}`)) {
     return false;
   }
   return true;
