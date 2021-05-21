@@ -30,29 +30,27 @@ export class AuthService {
     return null;
   }
 
-  generateToken(data: Object) {
-    return this.jwtService.sign(data, { expiresIn: '30m' });
-  }
-
   async login(loginData: LoginDTO, res: Response) {
     try {
       const user = await this.userService.getUserByUsername(
         loginData?.username,
       );
 
-      const { id, password, createdAt, updatedAt, deletedAt, bookedSeats, ...results } =
-        user;
+      const {
+        id,
+        password,
+        createdAt,
+        updatedAt,
+        deletedAt,
+        bookedSeats,
+        ...results
+      } = user;
 
-      res.cookie('access_token', this.generateToken(results), {
-        maxAge: 1000 * 60 * 30,
-        httpOnly: true,
-      });
+      return {
+        access_token: this.jwtService.sign(results, { expiresIn: '30m' }),
+      };
     } catch (e) {
       console.error(e);
     }
   }
-
-  // async checkLoggedIn(req){
-
-  // }
 }
