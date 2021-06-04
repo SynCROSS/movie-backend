@@ -50,13 +50,6 @@ export const generateSearchURL = (media: string, query: string): string => {
   return `${API_URL}/search/${media}?api_key=${API_KEY}&query=${query}`;
 };
 
-export const generateGenreURL = (media: string): string => {
-  if (!isValidMedia(media)) {
-    return null;
-  }
-  return `${API_URL}/genre/${media}/list?api_key=${API_KEY}`;
-};
-
 export const generateWatchProvider = (media: string, id: number): string => {
   if (!isValidMedia(media) || !isValidID(+id)) {
     return null;
@@ -88,4 +81,11 @@ export const generateReviewsURL = (media: string, id: number): string => {
 
 export const generateSimilarURL = (media: string, id: number): string => {
   return generateInfoURL(media, id, 'similar');
+};
+
+export const generateGenresURL = (media: string): string => {
+  if (!isValidMedia(media)) {
+    return null;
+  }
+  return `${API_URL}/genre/${media}/list?api_key=${API_KEY}`;
 };
