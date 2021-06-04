@@ -10,10 +10,10 @@ export const isValidTimeWindow = (time_window: string): boolean => {
   return !!/week|day/.exec(time_window);
 };
 
-export const isValidInfoType = (info_type: string): boolean => {
-  return !!/recommendations|reviews|similar/.exec(info_type);
-};
-
 export const isValidID = (id: number): boolean => {
   return !!/\d+/.exec(`${id}`);
+};
+
+export const isValidInfoType = (info_type: string): boolean => {
+  return !!/recommendations|reviews|similar/.exec(info_type);
 };
