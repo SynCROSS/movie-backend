@@ -1,13 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import axios from 'axios';
-import { isValidTarget, isValidInfoType, isValidID } from 'src/lib/isValid';
+import { isValidID } from 'src/lib/isValid';
 import {
-  generateContentsURL,
-  generateTrendingURL,
-  // generateGenreURL
-  generateWatchProvider,
+  generatePopularContentsURL,
+  generateTopRatedContentsURL,
+  generateTrendingContentsURL,
   generateSearchURL,
+  generateDetailContentURL,
+  generateWatchProvider,
+  generateRecommendationsURL,
+  generateReviewsURL,
+  generateSimilarURL,
+  // generateGenresURL
 } from '../lib/generateURL';
 import { Repository } from 'typeorm';
 import { MovieGenre } from '../models/movie/movie_genre.entity';
@@ -19,14 +24,46 @@ export class MoviesService {
     private readonly movieGenreRepository: Repository<MovieGenre>,
   ) {}
 
-  async getMovies(target: string, page: number = 1) {
+  async getPopularMovies(page: number = 1) {
     try {
-      if (!isValidTarget(target)) {
+      if (!/\d+/.exec(`${+page}`)) {
         return null;
       }
 
       const { data } = await axios.get(
-        generateContentsURL('movie', target) + `&page=${page || 1}`,
+        generatePopularContentsURL('movie') + `&page=${+page}`,
+      );
+
+      return data;
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async getTopRatedMovies(page: number = 1) {
+    try {
+      if (!/\d+/.exec(`${+page}`)) {
+        return null;
+      }
+
+      const { data } = await axios.get(
+        generateTopRatedContentsURL('movie') + `&page=${+page}`,
+      );
+
+      return data;
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async getTrendingMovies(time_window: string, page: number = 1) {
+    try {
+      if (!/\d+/.exec(`${+page}`)) {
+        return null;
+      }
+
+      const { data } = await axios.get(
+        generateTrendingContentsURL('movie', time_window) + `&page=${+page}`,
       );
 
       return data;
@@ -37,21 +74,13 @@ export class MoviesService {
 
   async searchMovies(query: string, page: number = 1) {
     try {
-      const { data } = await axios.get(
-        generateSearchURL('movie', query) + `&page=${page || 1}`,
-      );
-      return data;
-    } catch (e) {
-      console.error(e);
-    }
-  }
+      if (!/\d+/.exec(`${+page}`)) {
+        return null;
+      }
 
-  async getTrending(time_window: string, page: number = 1) {
-    try {
       const { data } = await axios.get(
-        generateTrendingURL('movie', time_window) + `&page=${page || 1}`,
+        generateSearchURL('movie', query) + `&page=${+page}`,
       );
-
       return data;
     } catch (e) {
       console.error(e);
@@ -60,11 +89,11 @@ export class MoviesService {
 
   async getMovieDetail(id: number) {
     try {
-      if (!isValidID(id)) {
+      if (!isValidID(+id)) {
         return null;
       }
 
-      const { data } = await axios.get(generateContentsURL('movie', id));
+      const { data } = await axios.get(generateDetailContentURL('movie', +id));
 
       return data;
     } catch (e) {
@@ -72,34 +101,62 @@ export class MoviesService {
     }
   }
 
-  async getWatchProviderByID(id: number) {
+  async getKoreanWatchProviderByID(id: number) {
     try {
-      if (!isValidID(id)) {
+      if (!isValidID(+id)) {
         return null;
       }
 
       const {
         data: { results },
-      } = await axios.get(generateWatchProvider('movie', id));
+      } = await axios.get(generateWatchProvider('movie', +id));
+
       return results.KR;
     } catch (e) {
       console.error(e);
     }
   }
 
-  async getMovieOtherInfo(id: number, info_type: string) {
+  async getMovieRecommendations(id: number) {
     try {
-      if (!isValidID(id)) {
-        return null;
-      }
-
-      if (!isValidInfoType(info_type)) {
+      if (!isValidID(+id)) {
         return null;
       }
 
       const {
         data: { results },
-      } = await axios.get(generateContentsURL('movie', id, info_type));
+      } = await axios.get(generateRecommendationsURL('movie', +id));
+
+      return results;
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async getMovieReviews(id: number) {
+    try {
+      if (!isValidID(+id)) {
+        return null;
+      }
+
+      const {
+        data: { results },
+      } = await axios.get(generateReviewsURL('movie', +id));
+
+      return results;
+    } catch (e) {
+      console.error(e);
+    }
+  }
+  async getMovieSimilar(id: number) {
+    try {
+      if (!isValidID(+id)) {
+        return null;
+      }
+
+      const {
+        data: { results },
+      } = await axios.get(generateSimilarURL('movie', +id));
 
       return results;
     } catch (e) {
@@ -111,7 +168,7 @@ export class MoviesService {
   //   try {
   //     const {
   //       data: { genres },
-  //     } = await axios.get(generateGenreURL('movie'));
+  //     } = await axios.get(generateGenresURL('movie'));
 
   //     for await (const genre of genres) {
   //       await this.movieGenreRepository.save(
@@ -125,6 +182,10 @@ export class MoviesService {
 
   async getMovieGenreByGenreID(id: number) {
     try {
+      if (!isValidID(+id)) {
+        return null;
+      }
+
       return await this.movieGenreRepository.findOne({ id });
     } catch (e) {
       console.error(e);
