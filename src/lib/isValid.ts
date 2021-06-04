@@ -2,8 +2,8 @@ export const isValidMedia = (media: string): boolean => {
   return !!/movie|tv/.exec(media);
 };
 
-export const isValidCategory = (target: string | number): boolean => {
-  return !!/top_rated|popular|upcoming/i.exec(`${target}`);
+export const isValidCategory = (category: string): boolean => {
+  return !!/top_rated|popular|upcoming/i.exec(category);
 };
 
 export const isValidTimeWindow = (time_window: string): boolean => {
