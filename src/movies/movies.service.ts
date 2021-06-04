@@ -81,13 +81,14 @@ export class MoviesService {
       const { data } = await axios.get(
         generateSearchURL('movie', query) + `&page=${+page}`,
       );
+
       return data;
     } catch (e) {
       console.error(e);
     }
   }
 
-  async getMovieDetail(id: number) {
+  async getMovieDetailByID(id: number) {
     try {
       if (!isValidID(+id)) {
         return null;
@@ -101,7 +102,7 @@ export class MoviesService {
     }
   }
 
-  async getKoreanWatchProviderByID(id: number) {
+  async getKoreanMovieProviderByID(id: number) {
     try {
       if (!isValidID(+id)) {
         return null;
@@ -117,7 +118,7 @@ export class MoviesService {
     }
   }
 
-  async getMovieRecommendations(id: number) {
+  async getMovieRecommendationsByID(id: number) {
     try {
       if (!isValidID(+id)) {
         return null;
@@ -133,7 +134,7 @@ export class MoviesService {
     }
   }
 
-  async getMovieReviews(id: number) {
+  async getMovieReviewsByID(id: number) {
     try {
       if (!isValidID(+id)) {
         return null;
@@ -148,7 +149,7 @@ export class MoviesService {
       console.error(e);
     }
   }
-  async getMovieSimilar(id: number) {
+  async getSimilarMovieByID(id: number) {
     try {
       if (!isValidID(+id)) {
         return null;

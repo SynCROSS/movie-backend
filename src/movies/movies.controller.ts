@@ -42,27 +42,27 @@ export class MoviesController {
   }
 
   @Get('detail/:id')
-  async getMovieDetail(@Param('id') id: number) {
-    return await this.movieService.getMovieDetail(id);
+  async getMovieDetailByID(@Param('id') id: number) {
+    return await this.movieService.getMovieDetailByID(id);
   }
 
   @Get('provider/:id')
-  async getKoreanWatchProviderByID(@Param('id') id: number) {
-    return await this.movieService.getKoreanWatchProviderByID(id);
+  async getKoreanMovieProviderByID(@Param('id') id: number) {
+    return await this.movieService.getKoreanMovieProviderByID(id);
   }
 
   @Get('recommendations/:id')
-  async getMovieRecommendations(@Param('id') id: number) {
-    return await this.movieService.getMovieRecommendations(id);
+  async getMovieRecommendationsByID(@Param('id') id: number) {
+    return await this.movieService.getMovieRecommendationsByID(id);
   }
 
   @Get('reviews/:id')
-  async getMovieReviews(@Param('id') id: number) {
-    return await this.movieService.getMovieReviews(id);
+  async getMovieReviewsByID(@Param('id') id: number) {
+    return await this.movieService.getMovieReviewsByID(id);
   }
 
   @Get('similar/:id')
-  async getMovieSimilar(@Param('id') id: number) {
-    return await this.movieService.getMovieSimilar(id);
+  async getSimilarMovieByID(@Param('id') id: number) {
+    return await this.movieService.getSimilarMovieByID(id);
   }
 }
