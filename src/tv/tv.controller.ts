@@ -5,20 +5,22 @@ import { TvService } from './tv.service';
 export class TvController {
   constructor(private readonly tvService: TvService) {}
 
-  @Get()
-  async getTVShows(
-    @Query('target') target: string,
-    @Query('page') page: number = 1,
-  ) {
-    return await this.tvService.getTVShows(target, page);
+  @Get('popular')
+  async getPopularTVShows(@Query('page') page: number = 1) {
+    return await this.tvService.getPopularTVShows(page);
+  }
+
+  @Get('top_rated')
+  async getTopRatedTVShows(@Query('page') page: number = 1) {
+    return await this.tvService.getTopRatedTVShows(page);
   }
 
   @Get('trending')
-  async getTrending(
+  async getTrendingTVShows(
     @Query('time_window') time_window: string,
     @Query('page') page: number = 1,
   ) {
-    return await this.tvService.getTrending(time_window, page);
+    return await this.tvService.getTrendingTVShows(time_window, page);
   }
 
   @Get('search')
@@ -34,21 +36,23 @@ export class TvController {
   //   return this.tvService.fetchTVShowGenres();
   // }
 
-  @Get('genre/:id')
-  async getTVShowGenreByID(@Param('id') id: number) {
-    return await this.tvService.getTVShowGenreByID(id);
+  @Get('provider/:id')
+  async getKoreanMovieProviderByID(@Param('id') id: number) {
+    return await this.tvService.getKoreanTVShowProviderByID(id);
   }
 
-  @Get('detail/:id')
-  async getTVShowsDetail(@Param('id') id: number) {
-    return await this.tvService.getTVShowDetail(id);
+  @Get('recommendations/:id')
+  async getTVShowRecommendationsByID(@Param('id') id: number) {
+    return await this.tvService.getTVShowRecommendationsByID(id);
   }
 
-  @Get('info/:id')
-  async getTVShowsOtherInfo(
-    @Param('id') id: number,
-    @Query('info_type') info_type: string,
-  ) {
-    return await this.tvService.getTVShowOtherInfo(id, info_type);
+  @Get('reviews/:id')
+  async getTVShowReviewsByID(@Param('id') id: number) {
+    return await this.tvService.getTVShowReviewsByID(id);
+  }
+
+  @Get('similar/:id')
+  async getSimilarTVShowByID(@Param('id') id: number) {
+    return await this.tvService.getSimilarTVShowByID(id);
   }
 }
