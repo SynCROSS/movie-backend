@@ -13,41 +13,40 @@ export class AuthService {
   ) {}
 
   async validateUser(username: string, password: string) {
-    const user = await this.userService.getUserByUsername(username);
+    try {
+      const user = await this.userService.getUserByUsername(username);
 
-    if (user?.username === username && compareSync(password, user?.password)) {
-      const {
-        id,
-        password,
-        createdAt,
-        updatedAt,
-        deletedAt,
-        bookedSeats,
-        ...results
-      } = user;
-      return results;
+      if (
+        user?.username === username &&
+        compareSync(password, user?.password)
+      ) {
+        return {
+          username: user.username,
+          nickname: user.nickname,
+          email: user.email,
+        };
+      }
+      return null;
+    } catch (e) {
+      console.error(e);
     }
-    return null;
   }
 
-  async login(loginData: LoginDTO, res: Response) {
+  async login(loginData: LoginDTO) {
     try {
       const user = await this.userService.getUserByUsername(
         loginData?.username,
       );
 
-      const {
-        id,
-        password,
-        createdAt,
-        updatedAt,
-        deletedAt,
-        bookedSeats,
-        ...results
-      } = user;
-
       return {
-        access_token: this.jwtService.sign(results, { expiresIn: '30m' }),
+        access_token: this.jwtService.sign(
+          {
+            username: user.username,
+            nickname: user.nickname,
+            email: user.email,
+          },
+          { expiresIn: '30m' },
+        ),
       };
     } catch (e) {
       console.error(e);
