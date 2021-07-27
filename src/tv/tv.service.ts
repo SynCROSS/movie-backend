@@ -24,7 +24,7 @@ export class TvService {
     private readonly tvGenreRepository: Repository<TVGenre>,
   ) {}
 
-  async getPopularTVShows(page: number = 1) {
+  async getPopularTVShows(page = 1) {
     try {
       if (!/\d+/.exec(`${+page}`)) {
         return null;
@@ -40,7 +40,7 @@ export class TvService {
     }
   }
 
-  async getTopRatedTVShows(page: number = 1) {
+  async getTopRatedTVShows(page = 1) {
     try {
       if (!/\d+/.exec(`${+page}`)) {
         return null;
@@ -56,7 +56,7 @@ export class TvService {
     }
   }
 
-  async getTrendingTVShows(time_window: string, page: number = 1) {
+  async getTrendingTVShows(time_window: string, page = 1) {
     try {
       if (!/\d+/.exec(`${+page}`)) {
         return null;
@@ -72,7 +72,7 @@ export class TvService {
     }
   }
 
-  async searchTVShows(query: string, page: number = 1) {
+  async searchTVShows(query: string, page = 1) {
     try {
       if (!/\d+/.exec(`${+page}`)) {
         return null;
