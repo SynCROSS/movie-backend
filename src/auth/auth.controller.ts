@@ -1,5 +1,5 @@
-import { Controller, Post, UseGuards, Req, Get, Res } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { Controller, Post, UseGuards, Req, Get } from '@nestjs/common';
+import { Request } from 'express';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
@@ -11,7 +11,7 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get('check')
   checkLoggedIn(@Req() req: Request) {
-    return req.user;
+    return req?.user;
   }
 
   @UseGuards(LocalAuthGuard)
