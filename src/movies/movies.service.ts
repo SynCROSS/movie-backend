@@ -24,7 +24,7 @@ export class MoviesService {
     private readonly movieGenreRepository: Repository<MovieGenre>,
   ) {}
 
-  async getPopularMovies(page: number = 1) {
+  async getPopularMovies(page = 1) {
     try {
       if (!/\d+/.exec(`${+page}`)) {
         return null;
@@ -40,7 +40,7 @@ export class MoviesService {
     }
   }
 
-  async getTopRatedMovies(page: number = 1) {
+  async getTopRatedMovies(page = 1) {
     try {
       if (!/\d+/.exec(`${+page}`)) {
         return null;
@@ -56,7 +56,7 @@ export class MoviesService {
     }
   }
 
-  async getTrendingMovies(time_window: string, page: number = 1) {
+  async getTrendingMovies(time_window: string, page = 1) {
     try {
       if (!/\d+/.exec(`${+page}`)) {
         return null;
@@ -72,7 +72,7 @@ export class MoviesService {
     }
   }
 
-  async searchMovies(query: string, page: number = 1) {
+  async searchMovies(query: string, page = 1) {
     try {
       if (!/\d+/.exec(`${+page}`)) {
         return null;
