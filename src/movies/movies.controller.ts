@@ -6,19 +6,19 @@ export class MoviesController {
   constructor(private readonly movieService: MoviesService) {}
 
   @Get('popular')
-  async getPopularMovies(@Query('page') page: number = 1) {
+  async getPopularMovies(@Query('page') page: number) {
     return await this.movieService.getPopularMovies(page);
   }
 
   @Get('top_rated')
-  async getTopRatedMovies(@Query('page') page: number = 1) {
+  async getTopRatedMovies(@Query('page') page: number) {
     return await this.movieService.getTopRatedMovies(page);
   }
 
   @Get('trending')
   async getTrendingMovies(
     @Query('time_window') time_window: string,
-    @Query('page') page: number = 1,
+    @Query('page') page: number,
   ) {
     return await this.movieService.getTrendingMovies(time_window, page);
   }
@@ -26,7 +26,7 @@ export class MoviesController {
   @Get('search')
   async searchMovies(
     @Query('query') query: string,
-    @Query('page') page: number = 1,
+    @Query('page') page: number,
   ) {
     return await this.movieService.searchMovies(query, page);
   }
