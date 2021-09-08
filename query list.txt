@@ -1,0 +1,13 @@
+/?target=
+top_rated
+popular
+upcoming
+
+/trending?time_window=
+week
+day
+
+/info/:id?info_type=
+recommendations
+reviews
+similar
