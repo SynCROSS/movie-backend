@@ -11,12 +11,18 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get('check')
   checkLoggedIn(@Req() req: Request) {
-    return req?.user;
+    return req.isAuthenticated();
   }
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Req() req: Request) {
-    return await this.authService.login(req.body);
+    if (!req.isAuthenticated) {
+      return await this.authService.login(req.body);
+    }
+
+    return {
+      message: 'User Is Already Logged In!',
+    };
   }
 }
