@@ -16,16 +16,26 @@ export class AuthService {
       const user = await this.userService.getUserByUsername(username);
 
       if (
+        !user?.username ||
+        !user?.nickname ||
+        !user?.password ||
+        !user?.email
+      ) {
+        return null;
+      }
+
+      const { nickname, email } = user;
+
+      if (
         user?.username === username &&
         compareSync(password, user?.password)
       ) {
         return {
-          username: user.username,
-          nickname: user.nickname,
-          email: user.email,
+          username,
+          nickname,
+          email,
         };
       }
-      return null;
     } catch (e) {
       console.error(e);
     }
@@ -37,14 +47,27 @@ export class AuthService {
         loginData?.username,
       );
 
+      if (
+        !user?.username ||
+        !user?.nickname ||
+        !user?.password ||
+        !user?.email
+      ) {
+        return null;
+      }
+
+      const { username, nickname, email } = user;
+
       return {
         access_token: this.jwtService.sign(
           {
-            username: user.username,
-            nickname: user.nickname,
-            email: user.email,
+            username,
+            nickname,
+            email,
           },
-          { expiresIn: '30m' },
+          {
+            expiresIn: '30m',
+          },
         ),
       };
     } catch (e) {
